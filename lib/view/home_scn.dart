@@ -1,8 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:timer/view/widgets/play_button.dart';
+import 'package:timer/view/widgets/reset_button.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -17,7 +18,6 @@ class _MyHomePageState extends State<MyHomePage> {
   bool isRunning = false;
 
 //-----Start-Stop Function
-
   onStartStop() {
     if (stopwatch.isRunning) {
       stopwatch.stop();
@@ -28,7 +28,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-//------
+//------ Formates timer val
   String formatedValue() {
     var ms = stopwatch.elapsed.inMilliseconds;
     String milliSeconds = ((ms % 1000) % 100).toString().padLeft(2, '0');
@@ -67,27 +67,14 @@ class _MyHomePageState extends State<MyHomePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  InkWell(
-                    onTap: () {
-                      stopwatch.reset();
-                    },
-                    child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.grey.withOpacity(0.5),
-                            shape: BoxShape.circle),
-                        padding: EdgeInsets.all(30),
-                        child: Text('Reset')),
+                  ResetButton(
+                    stopwatch: stopwatch,
                   ),
-                  InkWell(
+                  PlayButton(
+                    isRunning: isRunning,
                     onTap: () {
                       onStartStop();
                     },
-                    child: Container(
-                        decoration: BoxDecoration(
-                            color: isRunning ? Colors.redAccent : Colors.green,
-                            shape: BoxShape.circle),
-                        padding: EdgeInsets.all(30),
-                        child: isRunning ? Text('Stop') : Text('Start')),
                   ),
                 ],
               )
